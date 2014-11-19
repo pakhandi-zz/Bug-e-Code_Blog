@@ -1,0 +1,65 @@
+      body
+      {
+        background-color: #eee;
+      }
+      .page-header 
+      {
+        padding-top: 9px;
+        padding-bottom: 9px;
+        margin: -20px 0 0px;
+        padding-left: 50px;
+        border-bottom: 1px solid #eee;
+        background-color: black;
+        color: white;
+      }
+      .container
+      {
+        width: 100%;
+      }
+      .jumbotron
+      {
+        padding-top: 2px;
+      }
+      .navbar 
+      {
+        left: -15px;
+        width: 102.25%;
+      }
+      #left_group
+      {
+        margin-left: 10px;
+        width: 70%;
+        float: left;
+        padding: 20px;
+      }
+      #right_group
+      {
+        margin-right: 10px;
+        float: right;
+        width: 28%;
+        background-color: #eee;
+        padding: 35px;
+        border-left: groove;
+        border-left-width: 5px;
+      }
+      #right_group li:hover 
+      {
+        background-color: green;
+      }
+      #pagination_box
+      {
+        margin-left: -50px;
+      }
+      #title_time
+      {
+        float: right;
+        margin-right: 8px;
+      }
+      #title_time a:link { color: white;}
+      #title_time a:visited {color: white;}
+      #title_time a:hover {color: green;}
+      #title_time a:active {color: white;}
+      .panel-body
+      {
+        overflow-wrap: break-word;
+      }
