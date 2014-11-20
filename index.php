@@ -1,4 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- Microdata markup added by Google Structured Data Markup Helper. -->
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -46,7 +47,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">Home</a></li>
-            <li><a href="unplugged.php">Personal</a></li>
+            <li><a href="unplugged.php">Personal Blog</a></li>
             <li><a href="http://tools.bugecode.com">Tools</a></li>
             <li><a href="about/">About</a></li>
           </ul>
@@ -79,7 +80,7 @@
                           </span>
                       </h3>
                     </div>
-                    <div class="panel-body">
+                    <div itemscope itemtype="http://schema.org/Article" class="panel-body">
                       <?php 
 
                               $curr_post = $row['post'];
@@ -129,7 +130,7 @@
 
       <div class="jumbotron" id="right_group">
         <?php
-            $qw = "SELECT * FROM tags ORDER BY posts DESC LIMIT 0, 5;";
+            $qw = "SELECT * FROM tags WHERE category='tech' ORDER BY posts DESC LIMIT 0, 5;";
             $result = mysqli_query($conn,$qw);
             $row = mysqli_fetch_array($result);
         ?>
