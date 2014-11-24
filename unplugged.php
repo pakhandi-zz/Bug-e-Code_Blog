@@ -15,10 +15,14 @@
 <script src="bootstrap/js/bootstrap.js"></script>
 <link href="css/basic_common.css" rel="stylesheet" type="text/css"/>
 <style>
-      
+      .glyphicon-heart
+      {
+        color: red;
+      }
 </style>
 </head>
 <body>
+<?php include "include/include_fb.php"; ?>
 <?php   
         include "include/pass.php";
         $conn = $passcode;
@@ -46,10 +50,10 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
           <ul class="nav navbar-nav">
-            <li><a href="index.php">Home</a></li>
-            <li class="active"><a href="#">Personal Blog</a></li>
-            <li><a href="http://tools.bugecode.com">Tools</a></li>
-            <li><a href="about/">About</a></li>
+            <li><a href="index.php"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> &nbsp;Home</a></li>
+            <li class="active" id="personal_tab"><a href="unplugged.php"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> &nbsp;Personal Blog</a></li>
+            <li id="tool_tab"><a href="http://tools.bugecode.com" target="_blank"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> &nbsp;Tools</a></li>
+            <li><a href="about/"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> &nbsp;About</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
@@ -64,11 +68,16 @@
             <?php
 
               for($i=0; $i<5; $i++)
-              { ?>
+              { 
+                  if($row==NULL)
+                    break;
+                ?>
 
                 <div class="panel panel-<?php echo $btn_clrs[$i]; ?>">
                     <div class="panel-heading">
+                    <a href="<?php echo "post.php?pid=".$row['id']; ?>">
                       <h3 class="panel-title"><?php echo $row['title'] ?>
+                    </a>
                           <span class="label label-default" id="title_time">
                             <?php echo $row['timest']; ?>
                           </span>
@@ -132,18 +141,18 @@
         <?php
             $qw = "SELECT * FROM tags WHERE category='personal' ORDER BY posts DESC LIMIT 0, 5;";
             $result = mysqli_query($conn,$qw);
-            $row = mysqli_fetch_array($result);
+            
         ?>
             <ul class="list-group">
 
                 <?php
-                    for($i=0; $i<5; $i++)
+                    while($row = mysqli_fetch_array($result))
                     { ?>
 
                         <a href="<?php echo "search.php?tag=".$row['tags']; ?>">
                           <li class="list-group-item">
                               <span class="badge"><?php echo $row['posts']; ?></span>
-                                  <?php echo $row['tags']; $row = mysqli_fetch_array($result); ?>
+                                  <?php echo $row['tags']; ?>
                           </li>
                         </a>
 
@@ -151,6 +160,9 @@
 
                 ?>
             </ul>
+            <br>
+            <br>
+            <?php include "include/page_like_n_share.php"; ?>
       </div>
 
             
@@ -160,3 +172,5 @@
 </div>
 </body>
 </html>
+
+<?php include "include/gao.php"; ?>
