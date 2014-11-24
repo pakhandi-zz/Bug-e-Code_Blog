@@ -3,8 +3,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<?php   
+        include "include/pass.php";
+        $conn = $passcode;
+        $curr = $_GET['page'];
+        $calc = ($curr)*5;
+        $pid  = $_GET['pid'];
+        if(!isset($_GET['pid']))
+          $pid=101;
+        $qw = "SELECT * FROM blog WHERE id=".$pid.";";
+        $result = mysqli_query($conn,$qw);
+        $row = mysqli_fetch_array($result);
+?>
+
 <title>
-    <?php include "include/blog_title_tab.php" ?>
+    <?php include "include/blog_title_tab.php";
+          echo " | ".$row['title'];
+     ?>
 </title>
 <style type="text/css">
 
@@ -47,18 +62,9 @@
 </style>
 </head>
 <body>
-<?php   
-        include "include/pass.php";
-        $conn = $passcode;
-        $curr = $_GET['page'];
-        $calc = ($curr)*5;
-        $pid  = $_GET['pid'];
-        if(!isset($_GET['pid']))
-          $pid=101;
-        $qw = "SELECT * FROM blog WHERE id=".$pid.";";
-        $result = mysqli_query($conn,$qw);
-        $row = mysqli_fetch_array($result);
-?>
+
+<?php include "include/include_fb.php"; ?>
+
 <div class="container">
   <nav class="navbar navbar-inverse" role="navigation">
       <div class="container-fluid">
@@ -76,10 +82,10 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
           <ul class="nav navbar-nav">
-            <li><a href="index.php">Home</a></li>
-            <li><a href="unplugged.php">Personal Blog</a></li>
-            <li><a href="http://tools.bugecode.com">Tools</a></li>
-            <li><a href="about/">About</a></li>
+            <li><a href="index.php"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> &nbsp;Home</a></li>
+            <li id="personal_tab"><a href="unplugged.php"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> &nbsp;Personal Blog</a></li>
+            <li id="tool_tab"><a href="http://tools.bugecode.com" target="_blank"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> &nbsp;Tools</a></li>
+            <li><a href="about/"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> &nbsp;About</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
@@ -110,6 +116,23 @@
                         </span>
                       </span>
                     </div>
+                    <center>
+                      <?php $link="http://bugecode.com/post.php?pid=".$row['id']; ?>
+                      <div class="well">
+                        <center>
+                          <h4>Like & Share this Post on FB</h4>
+                        
+                      
+                        <div class="fb-like" 
+                           data-href="<?php echo $row['fbpermalink']; ?>" 
+                           data-width="200" 
+                           data-layout="button_count" 
+                           data-action="like" 
+                           data-show-faces="false" 
+                           data-share="true">
+                        </div>
+                      </div>
+                    </center>
                 </div>
 
                 <div class="panel panel-danger">
@@ -178,7 +201,7 @@
 				</p><label class=" control-label" for="textarea">You are not a bot ryt? :</label>
 	            <center><div class="">
 	              <?php require_once('recaptchalib.php');
-	              $publickey = "XXXXXXXX"; // you got this from the signup page
+	              $publickey = "XXXXXXXXX"; // you got this from the signup page
 	              echo recaptcha_get_html($publickey); ?>
 	            </div></center>
 	            <br>
@@ -219,18 +242,18 @@
         <?php
             $qw = "SELECT * FROM tags ORDER BY posts DESC LIMIT 0, 5;";
             $result = mysqli_query($conn,$qw);
-            $row = mysqli_fetch_array($result);
+            
         ?>
             <ul class="list-group">
 
                 <?php
-                    for($i=0; $i<5; $i++)
+                    while($row = mysqli_fetch_array($result))
                     { ?>
 
                         <a href="<?php echo "search.php?tag=".$row['tags']; ?>">
                           <li class="list-group-item">
                               <span class="badge"><?php echo $row['posts']; ?></span>
-                                  <?php echo $row['tags']; $row = mysqli_fetch_array($result); ?>
+                                  <?php echo $row['tags']; ?>
                           </li>
                         </a>
 
@@ -238,6 +261,9 @@
 
                 ?>
             </ul>
+            <br>
+            <br>
+            <?php include "include/page_like_n_share.php"; ?>
       </div>
 
             
@@ -247,3 +273,4 @@
 </div>
 </body>
 </html>
+<?php include "include/gao.php"; ?>
