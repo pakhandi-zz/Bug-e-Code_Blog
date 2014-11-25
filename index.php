@@ -15,7 +15,13 @@
 <script src="bootstrap/js/bootstrap.js"></script>
 <link href="css/basic_common.css" rel="stylesheet" type="text/css"/>
 <style>
-
+#blog_fb
+{
+    position: fixed;
+    padding: 5px;
+    top: 10px;
+    right: 85px;
+}
 </style>
 </head>
 <body>
@@ -50,9 +56,14 @@
             <li class="active"><a href="#"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> &nbsp;Home</a></li>
             <li id="personal_tab"><a href="unplugged.php"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> &nbsp;Personal Blog</a></li>
             <li id="tool_tab"><a href="http://tools.bugecode.com" target="_blank"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> &nbsp;Tools</a></li>
+            <li id="secrets_tab"><a href="tweets.php"><span class="glyphicon glyphicon-link" aria-hidden="true"></span> &nbsp;Secrets</a></li>
+            <li id="archive_tab"><a href="archive.php"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> &nbsp;Archive</a></li>
             <li><a href="about/"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> &nbsp;About</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
+
+        
+
       </div><!-- /.container-fluid -->
     </nav>
     <?php
@@ -73,7 +84,7 @@
                 <div class="panel panel-<?php echo $btn_clrs[$i]; ?>">
                     <div class="panel-heading">
                     <a href="<?php echo "post.php?pid=".$row['id']; ?>">
-                      <h3 class="panel-title"><?php echo $row['title'] ?>
+                      <h3 class="panel-title"><b><?php echo $row['title'] ?></b>
                     </a>
                           <span class="label label-default" id="title_time">
                             <?php echo $row['timest']; ?>
@@ -148,8 +159,8 @@
 
                         <a href="<?php echo "search.php?tag=".$row['tags']; ?>">
                           <li class="list-group-item">
-                              <span class="badge"><?php echo $row['posts']; ?></span>
-                                  <?php echo $row['tags']; ?>
+                              <span class="badge" ><?php echo $row['posts']; ?></span>
+                                  <b><?php echo $row['tags']; ?></b>
                           </li>
                         </a>
 
@@ -157,12 +168,45 @@
 
                 ?>
             </ul>
-            <br>
-            <br>
-            <?php include "include/page_like_n_share.php"; ?>
+            
+            <div class="well" id="related_posts" itemscope itemtype="http://schema.org/Article">
+            <center><h4><i>Featured Posts : </i></h4></center>
+                <?php
+                    $qw = "SELECT * FROM blog ORDER BY priority DESC LIMIT 0, 5;";
+                    $result = mysqli_query($conn,$qw);
+                    while($row = mysqli_fetch_array($result))
+                    { 
+                        if($row['id']==$pid)
+                          continue;
+                      ?>
+
+                        <a href="<?php echo "post.php?pid=".$row['id']; ?>">
+                          <li class="list-group-item">
+                              <span>
+                                  <b><?php echo substr($row['title'],0,38).".."."<br>"; ?></b>
+                              </span>
+                          </li>
+                        </a>
+
+            <?php   }
+
+                ?>
+            </div>
+            
       </div>
 
-            
+      <div class="well" id="blog_fb">
+        <center><h4>Like & Share This blog on FB</h4>
+        <div class="fb-like" 
+           data-href="https://www.facebook.com/pages/Bug-e-Code/758305594205082" 
+           data-width="200" 
+           data-layout="button_count" 
+           data-action="like" 
+           data-show-faces="false" 
+           data-share="true">
+        </div>
+        </center>
+      </div>            
           
     </div>
 
