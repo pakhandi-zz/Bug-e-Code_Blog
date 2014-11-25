@@ -85,6 +85,8 @@
             <li><a href="index.php"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> &nbsp;Home</a></li>
             <li id="personal_tab"><a href="unplugged.php"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> &nbsp;Personal Blog</a></li>
             <li id="tool_tab"><a href="http://tools.bugecode.com" target="_blank"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> &nbsp;Tools</a></li>
+            <li id="secrets_tab"><a href="tweets.php"><span class="glyphicon glyphicon-link" aria-hidden="true"></span> &nbsp;Secrets</a></li>
+            <li id="archive_tab"><a href="archive.php"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> &nbsp;Archive</a></li>
             <li><a href="about/"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> &nbsp;About</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
@@ -95,14 +97,14 @@
         
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                      <h3 class="panel-title" id="title_box"><?php echo $row['title'] ?>
+                      <h3 class="panel-title" id="title_box"><b><?php echo $row['title'] ?></b>
                           <span class="label label-default" id="title_time">
                             <?php echo $row['timest']; ?>
                           </span>
                           &nbsp;&nbsp;&nbsp;&nbsp;
                           <span class="label label-default" id="title_time">
                             <a href="<?php echo "search.php?tag=".$row['tag']; ?>" >
-                              <b><u><?php echo "Tag : ".$row['tag']; ?></u></b>
+                              <b><u><?php echo "Tag : ".$row['tag']; $remtag=$row['tag']; $remcategory=$row['category']; ?></u></b>
                             </a>
                           </span>
                       </h3>
@@ -201,7 +203,7 @@
 				</p><label class=" control-label" for="textarea">You are not a bot ryt? :</label>
 	            <center><div class="">
 	              <?php require_once('recaptchalib.php');
-	              $publickey = "XXXXXXXXX"; // you got this from the signup page
+	              $publickey = "XXXXXX"; // you got this from the signup page
 	              echo recaptcha_get_html($publickey); ?>
 	            </div></center>
 	            <br>
@@ -253,7 +255,7 @@
                         <a href="<?php echo "search.php?tag=".$row['tags']; ?>">
                           <li class="list-group-item">
                               <span class="badge"><?php echo $row['posts']; ?></span>
-                                  <?php echo $row['tags']; ?>
+                                  <b><?php echo $row['tags']; ?></b>
                           </li>
                         </a>
 
@@ -261,8 +263,33 @@
 
                 ?>
             </ul>
-            <br>
-            <br>
+
+            <div class="well" id="related_posts" itemscope itemtype="http://schema.org/Article">
+            <center><h4><i>Related Posts : </i></h4></center>
+                <?php
+                    $qw = "SELECT * FROM blog WHERE tag=\"".$remtag."\" ORDER BY priority DESC LIMIT 0, 6;";
+                    $result = mysqli_query($conn,$qw);
+                    $count=0;
+                    while($row = mysqli_fetch_array($result))
+                    { 
+                        if($row['id']==$pid || $count==5)
+                          continue;
+                        $count++;
+                      ?>
+
+                        <a href="<?php echo "post.php?pid=".$row['id']; ?>">
+                          <li class="list-group-item">
+                              <span class="badge"><?php echo $row['posts']; ?></span>
+                                  <b><?php echo substr($row['title'],0,38).".."."<br>"; ?></b>
+                          </li>
+                        </a>
+
+            <?php   }
+
+                ?>
+                
+            </div>
+
             <?php include "include/page_like_n_share.php"; ?>
       </div>
 
