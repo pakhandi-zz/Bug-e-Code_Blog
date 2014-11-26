@@ -31,7 +31,7 @@
         $conn = $passcode;
         $curr = $_GET['page'];
         $calc = ($curr)*5;
-        $qw = "SELECT * FROM blog WHERE category='tech' ORDER BY id DESC LIMIT ".$calc.", 5;";
+        $qw = "SELECT * FROM blog ORDER BY timest DESC;";
         
         $result = mysqli_query($conn,$qw);
         $row = mysqli_fetch_array($result);
@@ -53,32 +53,14 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> &nbsp;Home</a></li>
+            <li><a href="index.php"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> &nbsp;Home</a></li>
             <li id="personal_tab"><a href="unplugged.php"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> &nbsp;Personal Blog</a></li>
             <li id="tool_tab"><a href="http://tools.bugecode.com" target="_blank"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> &nbsp;Tools</a></li>
             <li id="secrets_tab"><a href="tweets.php"><span class="glyphicon glyphicon-link" aria-hidden="true"></span> &nbsp;Secrets</a></li>
-            <li id="archive_tab"><a href="archive.php"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> &nbsp;Archive</a></li>
+            <li class="active" id="archive_tab"><a href="#"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> &nbsp;Archive</a></li>
             <li><a href="about/"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> &nbsp;About</a></li>
-            <!-- <li id="google_search">
-                <script>
-                    (function() {
-                      var cx = '001385081325609340139:nd7iyqrjuey';
-                      var gcse = document.createElement('script');
-                      gcse.type = 'text/javascript';
-                      gcse.async = true;
-                      gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
-                          '//www.google.com/cse/cse.js?cx=' + cx;
-                      var s = document.getElementsByTagName('script')[0];
-                      s.parentNode.insertBefore(gcse, s);
-                    })();
-                  </script>
-                  <gcse:search>Search</gcse:search>
-            </li>  -->
           </ul>
         </div><!-- /.navbar-collapse -->
-
-        
-
       </div><!-- /.container-fluid -->
     </nav>
     <?php
@@ -88,16 +70,17 @@
     ?>
     <div id="major">
         <div class="jumbotron" id="left_group">
+        <div class="well" itemscope itemtype="http://schema.org/Article"><center><h3>All Posts</h3></center></div>
             <?php
 
-              for($i=0; $i<5; $i++)
+              for($i=0 ;  ;$i++ )
               { 
                   if ($row==NULL)
                     break;
                 ?>
 
-                <div class="panel panel-<?php echo $btn_clrs[$i]; ?>">
-                    <div class="panel-heading">
+                <div class="panel panel-<?php echo $btn_clrs[$i%5]; ?>" >
+                    <div class="panel-heading" itemscope itemtype="http://schema.org/Article">
                     <a href="<?php echo "post.php?pid=".$row['id']; ?>">
                       <h3 class="panel-title"><b><?php echo $row['title'] ?></b>
                     </a>
@@ -131,38 +114,12 @@
 
             ?>
                 
-                <center>
-                <div class="pagination pagination-centered" id="pagination_box">
-                  <ul>
-                    <li><a href="index.php">&laquo;</a></li>
-                  <?php
-                      $start = max($curr-2,1);
-                      $end = max($curr+2,5);
-
-                      $i=$start;
-                      for( ; $i<=$end; $i++)
-                      {
-                          if($i==$curr+1)
-                          {
-                              echo "<li class=\"disabled\"><a href=\"#\">".$i."</li>";
-                          }
-                          else
-                          {
-                              $j=$i-1;
-                              echo "<li><a href=\"index.php?page=".$j."\">".$i."</a></li>";
-                          }
-                      }
-
-                  ?>
-                    <li><a href="<?php $temp=$curr+1; echo "index.php?page=".$temp; ?>">&raquo;</a></li>
-                 </ul>
-                </div>
-                </center>
+                
       </div>
 
       <div class="jumbotron" id="right_group">
         <?php
-            $qw = "SELECT * FROM tags WHERE category='tech' ORDER BY posts DESC LIMIT 0, 5;";
+            $qw = "SELECT * FROM tags ORDER BY posts DESC;";
             $result = mysqli_query($conn,$qw);
             //$row = mysqli_fetch_array($result);
         ?>
@@ -174,7 +131,7 @@
 
                         <a href="<?php echo "search.php?tag=".$row['tags']; ?>">
                           <li class="list-group-item">
-                              <span class="badge" ><?php echo $row['posts']; ?></span>
+                              <span class="badge"><?php echo $row['posts']; ?></span>
                                   <b><?php echo $row['tags']; ?></b>
                           </li>
                         </a>
@@ -197,9 +154,8 @@
 
                         <a href="<?php echo "post.php?pid=".$row['id']; ?>">
                           <li class="list-group-item">
-                              <span>
+                              <span class="badge"><?php echo $row['posts']; ?></span>
                                   <b><?php echo substr($row['title'],0,38).".."."<br>"; ?></b>
-                              </span>
                           </li>
                         </a>
 
