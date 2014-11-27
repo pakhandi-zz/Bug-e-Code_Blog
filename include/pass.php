@@ -1,3 +1,3 @@
 <?php
-	$passcode=mysqli_connect("XXXXX","XXXXX","XXXXXX","XXXXXX");
+	$passcode=mysqli_connect("xxxxx","xxxxx","xxxxx","xxxxx");
 ?>
