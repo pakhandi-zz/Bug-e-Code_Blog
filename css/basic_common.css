@@ -38,13 +38,13 @@
         float: right;
         width: 28%;
         background-color: #eee;
-        padding: 35px;
+        padding: 20px;
         border-left: groove;
         border-left-width: 5px;
       }
       #right_group li:hover 
       {
-        background-color: green;
+        background-color: rgb(210, 212, 213);
       }
       #pagination_box
       {
@@ -62,4 +62,73 @@
       .panel-body
       {
         overflow-wrap: break-word;
+      }
+
+      .pagination ul > li > a, .pagination ul > li > span
+      {
+        background-color: #1A33DD;
+        color:white;
+      }
+
+      .pagination ul > li > a:hover, .pagination ul > li > a:focus, .pagination ul > .active > a, .pagination ul > .active > span 
+      {
+        background-color: #C74141;
+      }
+
+      #personal_tab :hover > .glyphicon
+      {
+          color: red;
+      }
+      #personal_tab :hover > .counter
+      {
+          background-color: red;
+      }
+
+      #tool_tab :hover > .glyphicon
+      {
+          color: blue;
+      }
+
+      #ind_tab :hover > .counter
+      {
+          background-color: red;
+      }
+
+      #home_tab :hover > .counter
+      {
+          background-color: red;
+      }
+
+      .pagination
+      {
+          margin: 5px;
+      }
+
+      #related_posts
+      {
+        padding: 0px;
+        padding-top:5px;
+      }
+
+      #google_search
+      {
+        width: 200px;
+        height: 50px;
+        overflow: hidden;
+      }
+
+      .counter
+      {
+          position: absolute;
+          top: 0px;
+          left: 25px;
+          border-radius: 100%;
+          line-height: 2;
+          font-size: 8px !important;
+          padding: auto;
+          padding: 1px 5px;
+          background-color: black;
+          font-family: cursive;
+          font-weight: 700;
+          font-size: 8px;
       }
