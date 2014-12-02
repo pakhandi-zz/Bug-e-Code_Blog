@@ -32,6 +32,8 @@
         
         $result = mysqli_query($conn,$qw);
         $row = mysqli_fetch_array($result);
+
+        include "include/get_count.php";
 ?>
 <div class="container">
   <nav class="navbar navbar-inverse" role="navigation">
@@ -50,9 +52,12 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
           <ul class="nav navbar-nav">
-            <li><a href="index.php"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> &nbsp;Home</a></li>
-            <li class="active" id="personal_tab"><a href="unplugged.php"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> &nbsp;Personal Blog</a></li>
+            <li id="home_tab"><a href="index.php"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><span class="badge counter" id="home_counter"><?php echo $count_home; ?></span> &nbsp;Home</a></li>
+            <li class="active" id="personal_tab"><a href="unplugged.php"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span><span class="badge counter" id="personal_counter"><?php echo $count_personal ?></span> &nbsp;Personal Blog</a></li>
             <li id="tool_tab"><a href="http://tools.bugecode.com" target="_blank"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> &nbsp;Tools</a></li>
+            <li id="secrets_tab"><a href="tweets.php"><span class="glyphicon glyphicon-link" aria-hidden="true"></span> &nbsp;Tweets</a></li>
+            <li id="ind_tab"><a href="ind.php"><span class="glyphicon glyphicon-road" aria-hidden="true"></span><span class="badge counter" id="personal_counter"><?php echo $count_ind ?></span> &nbsp;Issues n Development</a></li>
+            <li id="archive_tab"><a href="archive.php"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> &nbsp;Archive</a></li>
             <li><a href="about/"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> &nbsp;About</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
@@ -76,7 +81,7 @@
                 <div class="panel panel-<?php echo $btn_clrs[$i]; ?>">
                     <div class="panel-heading">
                     <a href="<?php echo "post.php?pid=".$row['id']; ?>">
-                      <h3 class="panel-title"><?php echo $row['title'] ?>
+                      <h3 class="panel-title"><b><?php echo $row['title'] ?></b>
                     </a>
                           <span class="label label-default" id="title_time">
                             <?php echo $row['timest']; ?>
@@ -93,7 +98,7 @@
                       <?php 
 
                               $curr_post = $row['post'];
-                            
+                              $curr_post = strip_tags($curr_post);
                               echo substr($curr_post,0,100);
                               
                       ?>
@@ -152,7 +157,7 @@
                         <a href="<?php echo "search.php?tag=".$row['tags']; ?>">
                           <li class="list-group-item">
                               <span class="badge"><?php echo $row['posts']; ?></span>
-                                  <?php echo $row['tags']; ?>
+                                  <b><?php echo $row['tags']; ?></b>
                           </li>
                         </a>
 
@@ -160,8 +165,28 @@
 
                 ?>
             </ul>
-            <br>
-            <br>
+            <div class="well" id="related_posts" itemscope itemtype="http://schema.org/Article">
+            <center><h4><i>Featured Posts : </i></h4></center>
+                <?php
+                    $qw = "SELECT * FROM blog ORDER BY priority DESC LIMIT 0, 5;";
+                    $result = mysqli_query($conn,$qw);
+                    while($row = mysqli_fetch_array($result))
+                    { 
+                        if($row['id']==$pid)
+                          continue;
+                      ?>
+
+                        <a href="<?php echo "post.php?pid=".$row['id']; ?>">
+                          <li class="list-group-item">
+                              <span class="badge"><?php echo $row['posts']; ?></span>
+                                  <b><?php echo substr($row['title'],0,38).".."."<br>"; ?></b>
+                          </li>
+                        </a>
+
+            <?php   }
+
+                ?>
+            </div>
             <?php include "include/page_like_n_share.php"; ?>
       </div>
 
