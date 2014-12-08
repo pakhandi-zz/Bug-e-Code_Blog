@@ -15,13 +15,6 @@
 <script src="bootstrap/js/bootstrap.js"></script>
 <link href="css/basic_common.css" rel="stylesheet" type="text/css"/>
 <style>
-#blog_fb
-{
-    position: fixed;
-    padding: 5px;
-    top: 10px;
-    right: 60px;
-}
 
 </style>
 </head>
@@ -61,10 +54,24 @@
             <li id="personal_tab"><a href="unplugged.php"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span><span class="badge counter" id="personal_counter"><?php echo $count_personal ?></span> &nbsp;Personal Blog</a></li>
             <li id="tool_tab"><a href="http://tools.bugecode.com" target="_blank"><span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> &nbsp;Tools</a></li>
             <li id="secrets_tab"><a href="tweets.php"><span class="glyphicon glyphicon-link" aria-hidden="true"></span> &nbsp;Tweets</a></li>
-            <li id="ind_tab"><a href="ind.php"><span class="glyphicon glyphicon-road" aria-hidden="true"></span><span class="badge counter" id="personal_counter"><?php echo $count_ind ?></span> &nbsp;Issues n Development</a></li>
+            <li id="ind_tab"><a href="ind.php"><span class="glyphicon glyphicon-road" aria-hidden="true"></span><span class="badge counter" id="personal_counter"><?php echo $count_ind ?></span> &nbsp;Issues n fixes</a></li>
             <li id="archive_tab"><a href="archive.php"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> &nbsp;Archive</a></li>
             <li><a href="about/"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> &nbsp;About</a></li>
-            
+            <!-- <li id="google_search">
+                <script>
+                    (function() {
+                      var cx = '001385081325609340139:nd7iyqrjuey';
+                      var gcse = document.createElement('script');
+                      gcse.type = 'text/javascript';
+                      gcse.async = true;
+                      gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+                          '//www.google.com/cse/cse.js?cx=' + cx;
+                      var s = document.getElementsByTagName('script')[0];
+                      s.parentNode.insertBefore(gcse, s);
+                    })();
+                  </script>
+                  <gcse:search>Search</gcse:search>
+            </li>  -->
           </ul>
         </div><!-- /.navbar-collapse -->
 
@@ -152,6 +159,23 @@
       </div>
 
       <div class="jumbotron" id="right_group">
+
+        <!--  Search Box  -->
+            <div class="row" id="search_bar_box">
+              <div class="col-lg-6" id="search_bar">
+              <form method="POST" action="find.php">
+                <div class="input-group">
+                  
+                  <input type="text" class="form-control" name="search_ele" placeholder="Search">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">Go!</button>
+                  </span>
+                  
+                </div><!-- /input-group -->
+                </form>
+              </div><!-- /.col-lg-6 -->
+            </div><!-- /.row -->
+          <!--  End of Search Box -->
         <?php
             $qw = "SELECT * FROM tags WHERE category='tech' ORDER BY posts DESC LIMIT 0, 5;";
             $result = mysqli_query($conn,$qw);
@@ -174,6 +198,19 @@
 
                 ?>
             </ul>
+
+            <div class="well" id="blog_fb">
+                <center><h4>Like & Share This blog on FB</h4>
+                    <div class="fb-like" 
+                       data-href="https://www.facebook.com/pages/Bug-e-Code/758305594205082" 
+                       data-width="200" 
+                       data-layout="standard" 
+                       data-action="like" 
+                       data-show-faces="true" 
+                       data-share="true">
+                    </div>
+                </center>
+            </div>
             
             <div class="well" id="related_posts" itemscope itemtype="http://schema.org/Article">
             <center><h4><i>Featured Posts : </i></h4></center>
@@ -201,18 +238,7 @@
             
       </div>
 
-      <div class="well" id="blog_fb">
-        <center><h4>Like & Share This blog on FB</h4>
-        <div class="fb-like" 
-           data-href="https://www.facebook.com/pages/Bug-e-Code/758305594205082" 
-           data-width="200" 
-           data-layout="button_count" 
-           data-action="like" 
-           data-show-faces="false" 
-           data-share="true">
-        </div>
-        </center>
-      </div>            
+                  
           
     </div>
 
