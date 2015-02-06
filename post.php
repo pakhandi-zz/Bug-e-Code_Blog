@@ -174,7 +174,7 @@
                     <div class="panel-body" id="comment_box">
                       <?php 
 
-                              echo $row['comment'];
+                              echo strip_tags($row['comment'], '<b><a><i><p><br>');
       
                       ?>
                     </div>
